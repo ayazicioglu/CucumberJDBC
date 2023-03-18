@@ -244,4 +244,47 @@ public class Stepdefinition {
         */
 
     }
+//===================================================================================================
+    @Then("brands tablosundaki {string} ile baslayan brand isimlerinin listelendigi dogrulanir.")
+    public void brandsTablosundakiIleBaslayanBrandIsimlerininListelendigiDogrulanir(String harf) {
+        String query="SELECT name FROM u480337000_tlb_training.brands WHERE name LIKE '"+harf+"%' ;";
+        List<Object> columnData=getColumnData(query,"name");
+        System.out.println(columnData);
+    }
+//================================================================================================
+
+    @And("carts tablosundaki en son sepete atilan {int} ürünün fiyatlari listelenir")
+    public void cartsTablosundakiEnSonSepeteAtilanÜrününFiyatlariListelenir(int sayi) {
+        String query="SELECT price FROM u480337000_tlb_training.carts order by updated_at desc;";
+        List<Object> columnData=getColumnData(query,"price");
+        for (int i = 0; i < sayi; i++) {
+            System.out.println(columnData.get(i));
+        }
+    }
+//=====================================================================================================
+    @And("Products tablosundaki unit_type_id'si {int} olmayanlari listelenir")
+    public void productsTablosundakiUnit_type_idSiOlmayanlariListelenir(int id) {
+        String query="SELECT product_name FROM u480337000_tlb_training.products where product_type not like "+id+";";
+        List<Object> columnData=getColumnData(query,"product_name");
+        System.out.println(columnData);
+    }
+//=============================================================================================
+
+    @And("languages tablosundaki code= {string} bilgisi ile verilen dilin ismi dogrulanir")
+    public void languagesTablosundakiCodeBilgisiIleVerilenDilinIsmiDogrulanir(String code) {
+        String query="SELECT name FROM u480337000_tlb_training.languages WHERE code='"+code+"';";
+        System.out.println(getCellValue(query));
+    }
+//===============================================================================================
+    @And("users tablosundaki isimler tekrarsiz listelenir")
+    public void usersTablosundakiIsimlerTekrarsizListelenir() {
+        String query="SELECT DISTINCT first_name FROM u480337000_tlb_training.users;";
+        System.out.println(getColumnData(query, "first_name"));
+    }
+//===================================================================================================
+    @And("transactions tablosunda morphable_id bilgilerini buyukten kucuge siralanarak En büyük deger yazdirilir")
+    public void transactionsTablosundaMorphable_idBilgileriniBuyuktenKucugeSiralanarakEnBüyükDegerYazdirilir() {
+        String query="SELECT morphable_id FROM u480337000_tlb_training.transactions order by morphable_id desc;";
+        System.out.println(getCellValue(query));
+    }
 }
